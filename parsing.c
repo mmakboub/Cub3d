@@ -6,31 +6,18 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 00:00:35 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 22:41:24 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/25 23:49:56 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3d.h"
 
-void	ft_check_cub(char *filename)
-{
-	int	len;
-	len = ft_strlen(filename);
-	if (filename[len - 4] != '.' || filename[len - 3] != 'c'
-		|| filename[len - 2] != 'u' || filename[len - 1] != 'b')
-	{
-		write(2, "this file's name needs to be ended by .ber\n", 24);
-		exit(1);
-	}
-}
-
-int countline(char *file)
+int	countline(char *file)
 {
 	char	*line;
 	int		fd;
 	int		count;
-	char *tmp;
+	char	*tmp;
 
 	count = 0;
 	fd = open(file, O_RDONLY);
@@ -51,43 +38,23 @@ int countline(char *file)
 	return (count);
 }
 
-
-
-
-void initializer(t_abtmap *game)
+char	**remplir_tableau(void)
 {
-	game->no = NULL;
-	game->so = NULL;
-	game->we = NULL;
-	game->map = NULL;
-	game->ea = NULL;
-	game->map = NULL;
-	game->maplines = 0;
-	game->lenghtlines = 0;
-	game->has_ea = -1;
-	game->has_no = -1;
-	game->has_we = -1;
-	game->has_so = -1;
-	game->has_c = -1;
-	game->has_f = -1;
-	game->floor = 0;
-	game->ceilling = 0;
+	char	**tableau;
+
+	tableau = malloc(3 * sizeof(char *));
+	tableau[0] = ft_strdup("F ");
+	tableau[1] = ft_strdup("C ");
+	tableau[2] = ft_strdup("1");
+	return (tableau);
 }
 
-char	**remplir_tableau(void) 
+void	free_tab(char **tab, int size)
 {
-    char** tableau = malloc(3 * sizeof(char*));
-    tableau[0] = ft_strdup("F ");
-    tableau[1] = ft_strdup("C ");
-    tableau[2] = ft_strdup("1");
-    return (tableau);
-}
+	int	i;
 
-void free_tab(char **tab, int size) 
-{
-	int i;
 	i = 0;
-	while(i < size)
+	while (i < size)
 	{
 		free(tab[i]);
 		i++;
@@ -95,41 +62,41 @@ void free_tab(char **tab, int size)
 	free(tab);
 }
 
-int check_intern_map(char *clean_ptr, t_abtmap *game)
+int	check_intern_map(char *clean_ptr, t_abtmap *game)
 {
-	int j;
-	char **tab;
-	int i = 0;
+	int		j;
+	char	**tab;
+	int		i;
 
-	while(clean_ptr[i++])
+	i = 0;
+	while (clean_ptr[i++])
 	{
-		if(game->lenghtlines > 3)
+		if (game->lenghtlines > 3)
 		{
-			if (ft_strnstr(clean_ptr, "NO ", 3) || ft_strnstr(clean_ptr, "SO ", 3) ||
-			ft_strnstr(clean_ptr, "WE ", 3) || ft_strnstr(clean_ptr, "EA ", 3))
+			if (ft_strnstr(clean_ptr, "NO ", 3) || \
+ft_strnstr(clean_ptr, "SO ", 3) || ft_strnstr(clean_ptr, "WE ", 3) || \
+ft_strnstr(clean_ptr, "EA ", 3))
 				return (1);
 		}
 		j = 0;
 		tab = remplir_tableau();
-		while (j < 3) 
+		while (j < 3)
 		{
-    		if (ft_strncmp(clean_ptr, tab[j], ft_strlen(tab[j])) == 0) 
+			if (ft_strncmp(clean_ptr, tab[j], ft_strlen(tab[j])) == 0)
 			{
-        		if (j == 2)
-        		    return (free_tab(tab, 3), 2);
+				if (j == 2)
+					return (free_tab(tab, 3), 2);
 				else
 					return (free_tab(tab, 3), 3);
-    		}
-    		j++;
+			}
+			j++;
 		}
 		free_tab(tab, 3);
 	}
-	return(printf("Error: invalid map's informations!!\n"), 0);
+	return (printf("Error: invalid map's informations!!\n"), 0);
 }
 
-
-
-void check_retvalue(int retvalue, char *clean_ptr, t_abtmap *game, char *ptr)
+void	check_retvalue(int retvalue, char *clean_ptr, t_abtmap *game, char *ptr)
 {
 	if (retvalue == 1)
 		parse_direction(game, clean_ptr);
@@ -139,64 +106,71 @@ void check_retvalue(int retvalue, char *clean_ptr, t_abtmap *game, char *ptr)
 		exit(0);
 }
 
-int ft_reading_maps(t_abtmap *game, char *file)
+int	ft_reading_maps(t_abtmap *game, char *file)
 {
 	char	*ptr;
 	char	*clean_ptr;
-	int fd;
-	int retvalue;
+	int		fd;
+	int		retvalue;
+	int		i;
+
 	fd = open(file, O_RDONLY);
-	if(fd < 0)
+	if (fd < 0)
 		write(2, "there is a probleme in operning file", 48);
 	ptr = get_next_line(fd);
 	game->lineindex = 0;
 	if (!ptr)
-		return(0);
-	game->maplines = countline(file);	
-	while(ptr)
+		return (0);
+	game->maplines = countline(file);
+	while (ptr)
 	{
 		clean_ptr = remove_caract(ptr, " \n");
-		if(!clean_ptr)
-			return(0);
+		if (!clean_ptr)
+			return (0);
 		game->lenghtlines = ft_strlen(clean_ptr);
-			int i = 0;
-		if(game->lenghtlines == 0)
+		i = 0;
+		if (game->lenghtlines == 0)
 		{
 			free(clean_ptr);
 			ptr = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		retvalue = check_intern_map(clean_ptr, game);
 		if (retvalue == 2)
-			break;
+			break ;
 		else
 			check_retvalue(retvalue, clean_ptr, game, ptr);
 		free(ptr);
 		ptr = get_next_line(fd);
 		game->lineindex++;
-
 	}
-	if(game->has_c != 1 || game->has_we != 1 || game->has_f != 1 || game->has_no != 1 || game->has_so != 1 || game->has_we != 1)
-		return(printf("Error : invalid map"), 0);
+	if (game->has_c != 1 || game->has_we != 1 || game->has_f != 1 || \
+game->has_no != 1 || game->has_so != 1 || game->has_we != 1)
+		return (printf("Error : invalid map"), 0);
 	parse_map(game, ptr, fd);
-	return(1);
+	return (1);
 }
-
-int main(int ac, char **av)
+int base_parsing(char *file, t_abtmap *game)
 {
-	t_abtmap	game;
-	char *file;
+	int	res;
+
+	initializer(game);
+	ft_check_cub(file);
+	res = ft_reading_maps(game, file);
+	return(res);
+	
+}
+int	main(int ac, char **av)
+{
+	t_abtmap game;
+	int res;
 	int i;
-	if(ac != 2)
-		write(2, "error in puting args", 20);
+	if (ac != 2)
+		write(2, "error in puting args\n", 20);
 	else
 	{
-		file = av[1];
-		initializer(&game);
-		int res;
-		ft_check_cub(file);
-		res = ft_reading_maps(&game, av[1]);
-		if(res)
+		res = base_parsing(av[1], &game);
+		if (res)
 		{
 			i = 0;
 			printf("NO = %s\n", game.no);
@@ -205,11 +179,11 @@ int main(int ac, char **av)
 			printf("we = %s\n", game.we);
 			printf("floor = %d\n", game.floor);
 			printf("ceilling = %d\n", game.ceilling);
-			while(game.map[i])
+			while (game.map[i])
 				printf("%s", game.map[i++]);
 		}
 		else
 			puts("\nko");
 	}
-	return(1);
+	return (1);
 }
