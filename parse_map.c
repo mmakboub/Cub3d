@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 22:33:48 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 21:32:34 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:36:07 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int valid_s(char **map, int i, int j, t_abtmap *game)
     else if (ft_strlen(map[i + 1]) <= j)
         return(0);
     return (1);
-}
+} // valid
 
 int valid_w(char **map, int i, int j)
 {
@@ -55,13 +55,12 @@ int valid_w(char **map, int i, int j)
         return(0);
     else
         return(1);
-        
 }
 int check_valid_map(int i, int j, char **map, t_abtmap *game, int *counter)
 { 
     if(game->map[i][j] == 'N' || game->map[i][j] == 'S' || game->map[i][j] == 'E' || game->map[i][j] == 'W')
         (*counter)++;
-    if(*counter == 1)
+    if(*counter == 1 || game->map[i][j] == '0')
     {
         if(!valid_n(map, i, j) || !valid_e(map, i, j) || !valid_s(map, i, j, game) || !valid_w(map, i, j))
             return (printf("map is invalide\n"), exit(1), 0);
