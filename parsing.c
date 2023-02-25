@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 00:00:35 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 16:57:33 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:02:53 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,43 +179,6 @@ int ft_reading_maps(t_abtmap *game, char *file)
 	if(game->has_c != 1 || game->has_we != 1 || game->has_f != 1 || game->has_no != 1 || game->has_so != 1 || game->has_we != 1)
 		return(printf("Error : invalid map"), 0);
 	parse_map(game, ptr, fd);
-	return(1);
-}
-
-// int checkmap(char **map)
-// {
-// 	int i;
-// 	int j;
-// 	while (map[i])
-// 	{
-// 		j = 0;
-// 		while(map[i][j])
-// 		{
-// 			if(map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W' || map[i][j] == '0')
-// 		}
-// 	}
-	
-// }
-
-int	parse_map(t_abtmap *game, char *first_line, int fd)
-{
-	int i;
-	char *line;
-	i = 1;
-	game->map = (char **)malloc((game->maplines - game->lineindex + 1) * sizeof(char *));
-	if (!(game->map))
-		return (0);
-	game->map[0] = first_line;
-	line = get_next_line(fd);
-	while(i < game->maplines - game->lineindex)
-	{
-		game->map[i++] = ft_strdup(line);
-		free (line);
-		line = get_next_line(fd);
-	}
-	game->map[i] = NULL;
-	// checkmap(game->map);
-	close(fd);
 	return(1);
 }
 
