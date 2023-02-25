@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 00:00:35 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 17:02:53 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:41:24 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ int main(int ac, char **av)
 				printf("%s", game.map[i++]);
 		}
 		else
-			puts("ko");
+			puts("\nko");
 	}
 	return(1);
 }

@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:35:41 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/24 17:52:47 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:56:39 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,11 @@ int rgb_converter(t_abtmap *game, char **rgbclr)
             return(0);
         i++;            
     }
-    while(rgbclr[i])
+    i = 0;
+    while(i < 3)
     {
-        if(ft_atoi(rgbclr[i]) <= 0 || ft_atoi(rgbclr[i]) >= 255)
-            return(0);
+        if(ft_atoi(rgbclr[i]) < 0 || ft_atoi(rgbclr[i]) > 255)
+           return(0);
         i++;
     }
     color = ft_atoi(rgbclr[0]) << 16 | ft_atoi(rgbclr[1]) << 8 | ft_atoi(rgbclr[2]);
