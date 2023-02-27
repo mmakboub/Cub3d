@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:15:36 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/27 20:12:55 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:52:40 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ char *fillwithspace(char *line, t_abtmap *game)
 		int diff = game->maxlenmap - ft_strlen(line);
 		strspaces = onlyspaces(diff);
 		tab = ft_strjoin(line, strspaces);
-		printf("tab = %sfin\n", tab);
 	}
 	else if(ft_strlen(line) == game->maxlenmap)
 		return(line);

@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:19 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/27 20:03:37 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:27:57 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,6 @@ int 				base_parsing(char *file, t_abtmap *game);
 void 				findmaxline(t_abtmap *game);
 char 				*fillwithspace(char *line, t_abtmap *game);
 char 				*onlyspaces(int diff);
+int 				numberofgamma(char *pathcolor);
+int 				checkgamma(char *pathcolor);
 #endif

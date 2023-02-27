@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:35:41 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/26 18:27:23 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:52:19 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	parse_color(t_abtmap *game, char *cleanline)
 		floor = remove_prefix(cleanline, "F ");
 		if (!floor)
 			memory_error();
+		if(!checkgamma(floor))
+			return(printf("path should contain 2 gamma\n"), exit(1), (void)0);
 		game->floor = receive_rgb_color(floor);
 		if (!game->floor)
 			exit(1);
@@ -38,6 +40,8 @@ void	parse_color(t_abtmap *game, char *cleanline)
 		ceilling = remove_prefix(cleanline, "C ");
 		if (!ceilling)
 			memory_error();
+		if(!checkgamma(ceilling))
+			return(printf("path should contain 2 gamma\n"), exit(1), (void)0);
 		game->ceilling = receive_rgb_color(ceilling);
 		if (!game->ceilling)
 			exit(1);

@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:40:56 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/27 20:10:02 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:52:57 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int ac, char **av)
 		res = base_parsing(av[1], &game);
 		if (res)
 		{
-			puts("ok");
 			i = 0;
 			printf("NO = %s\n", game.no);
 			printf("SO = %s\n", game.so);
