@@ -6,12 +6,12 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:33:27 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/22 00:18:34 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:26:13 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <stdlib.h>
+#include "cub3d.h"
 
 // int main()
 // {
@@ -27,22 +27,29 @@
 #include <stdio.h>
 #include <string.h>
 
-char *remove_prefix(char* str, char* prefix) {
-    char *src = strdup("");
-    size_t len_prefix = strlen(prefix);
-    if (strncmp(str, prefix, len_prefix) == 0) {
-       return (strcpy(src, str + len_prefix));
-    }
-    else {
-        return(strcpy(src, str));
-    }
+char	*remove_caract(char const *s1, char const *set)
+{
+	char	*trimmed_str;
+	size_t	start;
+	size_t	end;
+
+	if (!s1 || !set)
+		return (NULL);
+	start = 0;
+	while (s1[start] && ft_strchr(set, s1[start]))
+		start++;
+	end = ft_strlen(s1);
+	while (end > start && ft_strchr(set, s1[end - 1]))
+		end--;
+	trimmed_str = ft_substr(s1, start, end - start);
+	if (!trimmed_str)
+		return (NULL);
+	return (trimmed_str);
 }
 
 int main() {
-    char path[] = "SO   ./path_to_the_south_texture";
-    char prefix[] = "SO  ";
-    char result[100];
-    char *sub = remove_prefix(path, prefix);
-    printf("%s\n", sub);
+    char path[] = "\nSO   ./path_to_the_south_texture\n";
+    char *sub = remove_caract(path, "\n");
+    printf("%sfin", sub);
     return 0;
 }

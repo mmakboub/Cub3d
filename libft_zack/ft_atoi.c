@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:28:53 by zmoussam          #+#    #+#             */
-/*   Updated: 2023/02/24 17:46:41 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/26 17:58:23 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	ft_atoi(const char *str)
 	i = 0;
 	nombre = 0;
 	signe = 1;
-	// if(!str)
-	// 	return(0);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')

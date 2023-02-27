@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:19 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 23:28:18 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:03:37 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef struct s_index
+{
+	size_t i;
+	size_t j;
+}t_index;
 typedef struct s_img_data
 {
 	void			*img;
@@ -103,6 +108,7 @@ typedef struct s_abtmap
 	int				floor;
 	int				ceilling;
 	int				lineindex;
+	size_t				maxlenmap;
 
 }					t_abtmap;
 
@@ -124,17 +130,20 @@ char				*ft_strcpy(char *dest, char *src);
 char				*remove_prefix(char *line, char *prefix);
 void				memory_error(void);
 void				parse_color(t_abtmap *game, char *cleanline);
-int					receive_rgb_color(t_abtmap *game, char *cleanline,
-						char *color);
+int					receive_rgb_color(char *color);
 int					isalldigits(const char *s);
-int					rgb_converter(t_abtmap *game, char **rgbclr);
+int					rgb_converter(char **rgbclr);
 int					parse_map(t_abtmap *game, char *first_line, int fd);
-int					valid_n(char **map, int i, int j);
-int					valid_e(char **map, int i, int j);
-int					valid_s(char **map, int i, int j, t_abtmap *game);
-int					valid_w(char **map, int i, int j);
-int					check_valid_map(int i, int j, char **map, t_abtmap *game,
-						int *counter);
+int					valid_n(char **map, size_t i, size_t j);
+int					valid_e(char **map, size_t i, size_t j);
+int					valid_s(char **map, size_t i, size_t j, t_abtmap *game);
+int					valid_w(char **map, size_t i, size_t j);
+int					check_valid_map(t_index index, char **map, t_abtmap *game, int *counter);
 int					checkmap(t_abtmap *game);
-
+int					check_path(t_abtmap *game, char *cleanline);
+void				check_retvalue(int retvalue, char *clean_ptr, t_abtmap *game);
+int 				base_parsing(char *file, t_abtmap *game);
+void 				findmaxline(t_abtmap *game);
+char 				*fillwithspace(char *line, t_abtmap *game);
+char 				*onlyspaces(int diff);
 #endif

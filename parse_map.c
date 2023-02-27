@@ -6,61 +6,21 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 22:33:48 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 23:40:27 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:12:13 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	valid_n(char **map, int i, int j)
+int	check_valid_map(t_index index, char **map, t_abtmap *game, int *counter)
 {
-	if (i == 0 || map[i - 1][j] == ' ')
-		return (0);
-	else if (ft_strlen(map[i - 1]) <= j + 1)
-		return (0);
-	return (1);
-}
-
-int	valid_e(char **map, int i, int j)
-{
-	if (map[i][j] == '\n' || map[i][j] == '\0' || map[i][j] == ' ')
-		return (0);
-	return (1);
-}
-
-int	valid_s(char **map, int i, int j, t_abtmap *game)
-{
-	int	lastline;
-
-	lastline = game->maplines - game->lineindex - 1;
-	if (i == lastline)
-		return (0);
-	else if (map[i + 1][j] == '\0' || map[i + 1][j] == ' ')
-		return (0);
-	else if (ft_strlen(map[i + 1]) <= j)
-		return (0);
-	return (1);
-}
-
-int	valid_w(char **map, int i, int j)
-{
-	if (j == 0)
-		return (0);
-	if (map[i][j - 1] == ' ')
-		return (0);
-	else
-		return (1);
-}
-
-int	check_valid_map(int i, int j, char **map, t_abtmap *game, int *counter)
-{
-	if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || \
-game->map[i][j] == 'E' || game->map[i][j] == 'W')
+	if (game->map[index.i][index.j] == 'N' || game->map[index.i][index.j] == 'S' || \
+game->map[index.i][index.j] == 'E' || game->map[index.i][index.j] == 'W')
 		(*counter)++;
-	if (*counter == 1 || game->map[i][j] == '0')
+	if (*counter == 1 || game->map[index.i][index.j] == '0')
 	{
-		if (!valid_n(map, i, j) || !valid_e(map, i, j) || !valid_s(map, i, j, \
-game) || !valid_w(map, i, j))
+		if (!valid_n(map, index.i, index.j) || !valid_e(map, index.i, index.j) || !valid_s(map, index.i, index.j, \
+game) || !valid_w(map, index.i, index.j))
 			return (printf("map is invalide\n"), exit(1), 0);
 	}
 	else if (*counter > 1)
@@ -70,33 +30,29 @@ game) || !valid_w(map, i, j))
 
 int	checkmap(t_abtmap *game)
 {
-	int	i;
-	int	j;
-	int	counter;
+	t_index index;
+	int		counter;
 
-	i = 0;
+	index.i = -1;
 	counter = 0;
-	while (game->map[i])
+	while (game->map[++index.i])
 	{
-		j = 0;
-		while (game->map[i][j])
+		index.j = -1;
+		while (game->map[index.i][++index.j])
 		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || \
-game->map[i][j] == 'E' || game->map[i][j] == 'W' || game->map[i][j] == '0')
+			if (game->map[index.i][index.j] == 'N' || game->map[index.i][index.j] == 'S' || \
+game->map[index.i][index.j] == 'E' || game->map[index.i][index.j] == 'W' || game->map[index.i][index.j] == '0')
 			{
-				if (!check_valid_map(i, j, game->map, game, &counter))
+				if (!check_valid_map(index, game->map, game, &counter))
 					return (0);
 			}
-			else if (game->map[i][j] != '1' && game->map[i][j] != ' ' && \
-			game->map[i][j] != '\n')
+			else if (game->map[index.i][index.j] != '1' && game->map[index.i][index.j] != ' ' && \
+			game->map[index.i][index.j] != '\n')
 				return (printf("Error: invalid map!!\n"), 0);
-			j++;
 		}
-		i++;
 	}
 	if (counter == 0)
-		return (printf("map is invalide it should contain 1 player"), exit(1),
-			0);
+		return (printf("map should contain 1 player"), exit(1), 0);
 	return (1);
 }
 
@@ -112,14 +68,27 @@ int	parse_map(t_abtmap *game, char *first_line, int fd)
 		return (0);
 	game->map[0] = first_line;
 	line = get_next_line(fd);
+	
 	while (i < game->maplines - game->lineindex)
 	{
 		game->map[i++] = ft_strdup(line);
 		free(line);
 		line = get_next_line(fd);
 	}
+	int j;
+	j = 0;
 	game->map[i] = NULL;
-	checkmap(game);
+	if (!checkmap(game))
+		return (0);
+	findmaxline(game);
+	while(j < game->maplines - game->lineindex)
+	{
+		char *cleanptr = remove_caract(game->map[j], "\n");
+		if(!cleanptr)
+			return(0);
+		game->map[j] = fillwithspace(cleanptr, game);
+		j++;
+	}
 	close(fd);
 	return (1);
 }

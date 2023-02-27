@@ -1,25 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   test2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 16:26:27 by zmoussam          #+#    #+#             */
-/*   Updated: 2023/02/27 17:29:28 by mmakboub         ###   ########.fr       */
+/*   Created: 2023/02/27 00:37:49 by mmakboub          #+#    #+#             */
+/*   Updated: 2023/02/27 18:22:18 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdio.h>
+#include <string.h>
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0 ;
-	if(!str)
-		return(0);
-	while (str[i])
-		i++;
-	return (i);
-}

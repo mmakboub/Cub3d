@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 17:14:35 by zmoussam          #+#    #+#             */
-/*   Updated: 2023/02/22 00:21:36 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/26 17:57:35 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(const char *s1)
 	int		j;
 
 	size = 0;
-	if(!s1)
+	if (!s1)
 		return (NULL);
 	while (s1[size])
 		size++;

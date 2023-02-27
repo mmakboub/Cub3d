@@ -6,41 +6,11 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:15:36 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 23:41:55 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:12:55 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-
-{
-	size_t	firstc;
-	char	*newstr;
-
-	firstc = 0;
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s))
-	{
-		newstr = malloc(1);
-		if (!newstr)
-			return (NULL);
-		newstr[0] = '\0';
-		return (newstr);
-	}
-	if (len > ft_strlen(s))
-		len = ft_strlen(s);
-	newstr = (char *)malloc(sizeof(char) * (len + 1));
-	if (!newstr)
-		return (NULL);
-	while (firstc < len && start < ft_strlen(s))
-	{
-		newstr[firstc++] = s[start++];
-	}
-	newstr[firstc] = '\0';
-	return (newstr);
-}
 
 char	*remove_caract(char const *s1, char const *set)
 {
@@ -75,4 +45,83 @@ char	*remove_prefix(char *line, char *prefix)
 		return (ft_strcpy(substring, line + len_prefix));
 	else
 		return (ft_strcpy(substring, line));
+}
+
+int	countline(char *file)
+{
+	char	*line;
+	int		fd;
+	int		count;
+	char	*tmp;
+
+	count = 0;
+	fd = open(file, O_RDONLY);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+		{
+			close(fd);
+			break ;
+		}
+		tmp = remove_caract(line, " \n");
+		if (ft_strlen(tmp))
+			count++;
+		free(tmp);
+		free(line);
+	}
+	return (count);
+}
+
+void findmaxline(t_abtmap *game)
+{
+	int i;
+	size_t len;
+
+	i = 0;
+	game->maxlenmap = 0;
+	while (game->map[i])
+	{
+		len = ft_strlen(game->map[i]) - 1;
+		if (len > game->maxlenmap)
+			game->maxlenmap = len;
+		i++;
+	}
+}
+
+char *fillwithspace(char *line, t_abtmap *game)
+{
+	int i;
+	char *tab;
+	char *strspaces;
+
+	tab = NULL;
+	i = 0;
+	if(ft_strlen(line) < game->maxlenmap)
+	{
+		int diff = game->maxlenmap - ft_strlen(line);
+		strspaces = onlyspaces(diff);
+		tab = ft_strjoin(line, strspaces);
+		printf("tab = %sfin\n", tab);
+	}
+	else if(ft_strlen(line) == game->maxlenmap)
+		return(line);
+	return(tab);
+}
+
+char *onlyspaces(int diff)
+{
+	char *str;
+	int i;
+
+	i = 0;
+	str = (char *)malloc(sizeof(char *) * diff + 1);
+	if(!str)
+		return (NULL);
+	while(i < diff)
+	{
+		str[i] = ' ';
+		i++;
+	}
+	return(str);
 }

@@ -6,7 +6,7 @@
 /*   By: mmakboub <mmakboub@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:35:41 by mmakboub          #+#    #+#             */
-/*   Updated: 2023/02/25 23:35:21 by mmakboub         ###   ########.fr       */
+/*   Updated: 2023/02/26 18:27:23 by mmakboub         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	parse_color(t_abtmap *game, char *cleanline)
 		floor = remove_prefix(cleanline, "F ");
 		if (!floor)
 			memory_error();
-		game->floor = receive_rgb_color(game, cleanline, floor);
+		game->floor = receive_rgb_color(floor);
 		if (!game->floor)
 			exit(1);
 		game->has_f = 1;
@@ -38,14 +38,14 @@ void	parse_color(t_abtmap *game, char *cleanline)
 		ceilling = remove_prefix(cleanline, "C ");
 		if (!ceilling)
 			memory_error();
-		game->ceilling = receive_rgb_color(game, cleanline, ceilling);
+		game->ceilling = receive_rgb_color(ceilling);
 		if (!game->ceilling)
 			exit(1);
 		game->has_c = 1;
 	}
 }
 
-int	receive_rgb_color(t_abtmap *game, char *cleanline, char *color)
+int	receive_rgb_color(char *color)
 {
 	char	**rgbclr;
 	int		decrgb;
@@ -63,7 +63,7 @@ int	receive_rgb_color(t_abtmap *game, char *cleanline, char *color)
 		printf("error: there are more or less than 3 numbers!! \n");
 		exit(0);
 	}
-	decrgb = rgb_converter(game, rgbclr);
+	decrgb = rgb_converter(rgbclr);
 	if (!decrgb)
 		return (write(2, "Error : RGB colors are not available \n", 39), 0);
 	return (decrgb);
@@ -83,7 +83,7 @@ int	isalldigits(const char *s)
 	return (1);
 }
 
-int	rgb_converter(t_abtmap *game, char **rgbclr)
+int	rgb_converter(char **rgbclr)
 {
 	int	i;
 	int	color;
